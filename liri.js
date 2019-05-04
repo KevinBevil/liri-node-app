@@ -18,19 +18,32 @@ var name = process.argv[3];
 //------------------------------------------------------------------------------
 if (command === `concert-this`) {
    //...
-} 
+}
 //------------------------------------------------------------------------------
 // SPOTIFY PORTION
 //------------------------------------------------------------------------------
 else if (command === `spotify-this-song`) {
    //...
-} 
+}
 //------------------------------------------------------------------------------
 // IMDB PORTION
 //------------------------------------------------------------------------------
 else if (command === `movie-this`) {
-   //...
-} 
+   axios.get("http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy")
+      .then(function (response) {
+         console.log(`
+         Title: ${response.data.Title}
+         Year: ${response.data.Year}
+         IMDB Rating: ${response.data.Ratings[0].Value}
+         Rotten Tomatoes Rating: ${response.data.Ratings[1].Value}
+         Country: ${response.data.Country}
+         Language: ${response.data.Language}
+         Plot: ${response.data.Plot}
+         Actors: ${response.data.Actors}`);
+         
+      }
+      );
+}
 //------------------------------------------------------------------------------
 // READ FILE PORTION
 //------------------------------------------------------------------------------
@@ -42,6 +55,6 @@ else if (command === `do-what-it-says`) {
    spotify-this-song
    movie-this
    do-what-it-says`);
-   
+
 }
 
