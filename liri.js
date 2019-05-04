@@ -24,6 +24,14 @@ if (command === `concert-this`) {
 // SPOTIFY PORTION
 //------------------------------------------------------------------------------
 else if (command === `spotify-this-song`) {
+   if (!name) {
+      console.log(`
+         Artist(s): Ace of Base
+         Name: The Sign
+         Preview Link: https://p.scdn.co/mp3-preview/af237206f611b722f48620ece049aff3b8650e77?cid=dc9d465a8bb541fb96ea39bfb737bde7}
+         Album: The Sign`);
+      return
+   }
    spotify
       .search({ type: "track", query: name, limit: 1 }, function (error, data) {
          if (error) {
@@ -33,7 +41,9 @@ else if (command === `spotify-this-song`) {
 
          console.log(`
          Artist(s): ${data.tracks.items[0].album.artists[0].name}
-         Name: ${data.tracks.items[0].name}`);
+         Name: ${data.tracks.items[0].name}
+         Preview Link: ${data.tracks.items[0].preview_url}
+         Album: ${data.tracks.items[0].album.name}`);
       })
 
 }
