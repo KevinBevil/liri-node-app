@@ -29,10 +29,11 @@ else if (command === `spotify-this-song`) {
          if (error) {
             return console.log('Error occurred: ' + error);
          }
-         console.log(JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
+         // console.log(JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
 
-         // console.log(`
-         // Artist(s): ${data[0].artists[0].name}`);
+         console.log(`
+         Artist(s): ${data.tracks.items[0].album.artists[0].name}
+         Name: ${data.tracks.items[0].name}`);
       })
 
 }
