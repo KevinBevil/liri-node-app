@@ -1,12 +1,13 @@
 // Grab the axios package...
 var axios = require("axios");
 
+var Spotify = require('node-spotify-api');
 
 require("dotenv").config();
 
 var keys = require("./keys.js");
 
-// var spotify = new Spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
 
 
 var command = process.argv[2];
@@ -23,7 +24,17 @@ if (command === `concert-this`) {
 // SPOTIFY PORTION
 //------------------------------------------------------------------------------
 else if (command === `spotify-this-song`) {
-   //...
+   spotify
+      .search({ type: "track", query: name, limit: 1 }, function (error, data) {
+         if (error) {
+            return console.log('Error occurred: ' + error);
+         }
+         console.log(JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
+
+         // console.log(`
+         // Artist(s): ${data[0].artists[0].name}`);
+      })
+
 }
 //------------------------------------------------------------------------------
 // IMDB PORTION
@@ -40,7 +51,6 @@ else if (command === `movie-this`) {
          Language: ${response.data.Language}
          Plot: ${response.data.Plot}
          Actors: ${response.data.Actors}`);
-         
       }
       );
 }
