@@ -1,6 +1,8 @@
 // Grab the axios package...
 var axios = require("axios");
 
+var moment = require('moment');
+
 var Spotify = require('node-spotify-api');
 
 require("dotenv").config();
@@ -18,7 +20,22 @@ var name = process.argv[3];
 // BANDS IN TOWN PORTION
 //------------------------------------------------------------------------------
 if (command === `concert-this`) {
-   //...
+   axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp")
+      .then(function (response) {
+
+         console.log(JSON.stringify(response.data, null, 2));
+
+         for (i = 0; i < 5; i++) {
+            console.log(`
+            Location: ${response.data[i].venue.city}
+            Venue Name: ${response.data[i].venue.name}
+            Concert Date/Time: ${moment(response.data[i].datetime).format("MM/DD/YYYY")}`);
+         }
+      }).catch(function (error) {
+         if (error) {
+            console.log(error);
+         }
+      })
 }
 //------------------------------------------------------------------------------
 // SPOTIFY PORTION
