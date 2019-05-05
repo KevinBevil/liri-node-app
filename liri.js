@@ -22,7 +22,13 @@ var name = process.argv[3];
 if (command === `concert-this`) {
    axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp")
       .then(function (response) {
-
+         debugger;
+         if (response.status == 200) {
+            console.log(`
+   Artist data not found.
+   Please try a different artist.`);
+            return;
+         }
          // console.log(JSON.stringify(response.data, null, 2));
 
          for (i = 0; i < response.data.length; i++) {
@@ -80,7 +86,11 @@ else if (command === `movie-this`) {
          Plot: ${response.data.Plot}
          Actors: ${response.data.Actors}`);
       }
-      );
+      ).catch(function (error) {
+         if (error) {
+            console.log(error);
+         }
+      });
 }
 //------------------------------------------------------------------------------
 // READ FILE PORTION
