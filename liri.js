@@ -111,6 +111,7 @@ var doWhatItSays = function () {
       name = output[1];
 
       if (command === `concert-this`) {
+         debugger;
          concertThis();
       }
       else if (command === `spotify-this-song`) {
@@ -124,7 +125,7 @@ var doWhatItSays = function () {
          spotify-this-song
          movie-this
          do-what-it-says`);
-      
+
       }
    });
 }
