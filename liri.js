@@ -51,17 +51,17 @@ else if (command === `spotify-this-song`) {
       console.log(`
          Artist(s): Ace of Base
          Name: The Sign
-         Preview Link: https://p.scdn.co/mp3-preview/af237206f611b722f48620ece049aff3b8650e77?cid=dc9d465a8bb541fb96ea39bfb737bde7}
+         Preview Link: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=dc9d465a8bb541fb96ea39bfb737bde7
          Album: The Sign`);
       return
    }
    spotify
-      .search({ type: "track", query: name, limit: 1 }, function (error, data) {
+      .search({ type: "track", query: name, limit: 15 }, function (error, data) {
          if (error) {
             return console.log('Error occurred: ' + error);
          }
          // console.log(JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
-
+         debugger;
          console.log(`
          Artist(s): ${data.tracks.items[0].album.artists[0].name}
          Name: ${data.tracks.items[0].name}
