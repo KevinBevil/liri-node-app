@@ -11,6 +11,7 @@ var keys = require("./keys.js");
 
 var spotify = new Spotify(keys.spotify);
 
+var fs = require("fs");
 
 var command = process.argv[2];
 var name = process.argv[3];
@@ -74,6 +75,18 @@ else if (command === `spotify-this-song`) {
 // IMDB PORTION
 //------------------------------------------------------------------------------
 else if (command === `movie-this`) {
+   if (!name) {
+      console.log(`
+      Title: Mr. Nobody
+      Year: 2009
+      IMDB Rating: 7.8/10
+      Rotten Tomatoes Rating: 67%
+      Country: Belgium, Germany, Canada, France, USA, UK
+      Language: English, Mohawk
+      Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.
+      Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham`);
+      return
+   }
    axios.get("http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy")
       .then(function (response) {
          console.log(`
