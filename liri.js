@@ -16,27 +16,28 @@ var fs = require("fs");
 var command = process.argv[2];
 var name = process.argv[3];
 
+/*------------------------------------------------------------------------------
+*********************      FUNCTIONS     ***************************************
+------------------------------------------------------------------------------*/
 
-//------------------------------------------------------------------------------
-// BANDS IN TOWN PORTION
-//------------------------------------------------------------------------------
-if (command === `concert-this`) {
+//Function to be executed upon 'concert-this' user command
+var concertThis = function () {
    axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp")
       .then(function (response) {
          debugger;
-         if (response.status == 200) {
-            console.log(`
-   Artist data not found.
-   Please try a different artist.`);
-            return;
-         }
+         //          if (response.status == 404) {
+         //             console.log(`
+         // Artist data not found.
+         // Please try a different artist.`);
+         //             return;
+         //          }
          // console.log(JSON.stringify(response.data, null, 2));
 
          for (i = 0; i < response.data.length; i++) {
             console.log(`
-            Location: ${response.data[i].venue.city}
-            Venue: ${response.data[i].venue.name}
-            Date: ${moment(response.data[i].datetime).format("MM/DD/YYYY")}`);
+         Location: ${response.data[i].venue.city}
+         Venue: ${response.data[i].venue.name}
+         Date: ${moment(response.data[i].datetime).format("MM/DD/YYYY")}`);
          }
       }).catch(function (error) {
          if (error) {
@@ -44,10 +45,8 @@ if (command === `concert-this`) {
          }
       })
 }
-//------------------------------------------------------------------------------
-// SPOTIFY PORTION
-//------------------------------------------------------------------------------
-else if (command === `spotify-this-song`) {
+//Function to be executed upon 'spotify-this-song' user command
+var spotifyThisSong = function () {
    if (!name) {
       console.log(`
          Artist(s): Ace of Base
@@ -69,12 +68,9 @@ else if (command === `spotify-this-song`) {
          Preview Link: ${data.tracks.items[0].preview_url}
          Album: ${data.tracks.items[0].album.name}`);
       })
-
 }
-//------------------------------------------------------------------------------
-// IMDB PORTION
-//------------------------------------------------------------------------------
-else if (command === `movie-this`) {
+//Function to be executed upon 'movie-this' user command
+var movieThis = function () {
    if (!name) {
       console.log(`
       Title: Mr. Nobody
@@ -105,11 +101,58 @@ else if (command === `movie-this`) {
          }
       });
 }
+var doWhatItSays = function () {
+   fs.readFile("./random.txt", "utf8", function (error, data) {
+      if (error) {
+         return console.log(err);
+      }
+      var output = data.split(",");
+      command = output[0];
+      name = output[1];
+
+      if (command === `concert-this`) {
+         concertThis();
+      }
+      else if (command === `spotify-this-song`) {
+         spotifyThisSong();
+      }
+      else if (command === `movie-this`) {
+         movieThis();
+      } else {
+         console.log(`Please make sure the liri command is one of the following:
+         concert-this
+         spotify-this-song
+         movie-this
+         do-what-it-says`);
+      
+      }
+   });
+}
+
+
+//------------------------------------------------------------------------------
+// BANDS IN TOWN PORTION
+//------------------------------------------------------------------------------
+if (command === `concert-this`) {
+   concertThis();
+}
+//------------------------------------------------------------------------------
+// SPOTIFY PORTION
+//------------------------------------------------------------------------------
+else if (command === `spotify-this-song`) {
+   spotifyThisSong();
+}
+//------------------------------------------------------------------------------
+// IMDB PORTION
+//------------------------------------------------------------------------------
+else if (command === `movie-this`) {
+   movieThis();
+}
 //------------------------------------------------------------------------------
 // READ FILE PORTION
 //------------------------------------------------------------------------------
 else if (command === `do-what-it-says`) {
-   //...
+   doWhatItSays();
 } else {
    console.log(`Please make sure the liri command is one of the following:
    concert-this
